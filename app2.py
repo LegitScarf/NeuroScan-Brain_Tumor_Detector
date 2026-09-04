@@ -98,6 +98,13 @@ st.markdown(
             --shadow: 0 10px 40px -20px rgba(11,18,32,0.25);
         }
         html, body, [class*="css"] { font-family:'Manrope', system-ui, sans-serif; color:var(--ink); }
+
+        /* Streamlit sometimes sets -webkit-text-fill-color on headings/markdown,
+           which makes our custom text invisible. Force ink color everywhere and
+           only opt-out on the elements that want gradient text. */
+        .stApp, .stApp *:not(script):not(style){ -webkit-text-fill-color: currentColor; }
+        .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp p, .stApp span, .stApp div, .stApp a{ color: var(--ink); }
+        .stApp p, .step p, .panel .sub, .nav-links, .empty, .foot{ color: var(--muted); }
         .stApp { background:
             radial-gradient(1200px 500px at -10% -10%, rgba(14,165,164,0.10), transparent 60%),
             radial-gradient(900px 500px at 110% 10%, rgba(124,58,237,0.10), transparent 60%),
@@ -109,7 +116,7 @@ st.markdown(
 
         /* ---------- Top nav ---------- */
         .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 22px; border:1px solid var(--line); background:rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius:999px; box-shadow:var(--shadow); margin-bottom:38px; }
-        .nav-brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-0.01em; }
+        .nav-brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-0.01em; color: var(--ink) !important; -webkit-text-fill-color: var(--ink) !important; font-size:16px;}
         .nav-brand .dot{ width:26px; height:26px; border-radius:8px; background: conic-gradient(from 180deg at 50% 50%, var(--teal), var(--violet), var(--teal)); box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 8px 20px -8px rgba(124,58,237,.5); }
         .nav-links{ display:flex; gap:26px; color:var(--muted); font-size:14px; font-weight:500;}
         .nav-links span{ cursor:default; }
@@ -121,8 +128,8 @@ st.markdown(
         .eyebrow .pulse{ width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 0 rgba(14,165,164,0.6); animation: pulse 2s infinite; }
         @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(14,165,164,0.55);} 70%{box-shadow:0 0 0 12px rgba(14,165,164,0);} 100%{box-shadow:0 0 0 0 rgba(14,165,164,0);} }
 
-        .hero h1{ font-family:'Instrument Serif', serif; font-weight:400; font-size: clamp(44px, 6vw, 78px); line-height:0.98; letter-spacing:-0.02em; margin: 18px 0 8px; }
-        .hero h1 em{ font-style:italic; background: linear-gradient(120deg, var(--teal), var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .hero h1{ font-family:'Instrument Serif', serif; font-weight:400; font-size: clamp(44px, 6vw, 78px); line-height:0.98; letter-spacing:-0.02em; margin: 18px 0 8px; color: var(--ink) !important; -webkit-text-fill-color: var(--ink) !important; }
+        .hero h1 em{ font-style:italic; background: linear-gradient(120deg, var(--teal), var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent !important; -webkit-text-fill-color: transparent !important; }
         .hero p.lede{ font-size:18px; color:var(--muted); max-width:640px; line-height:1.55; }
 
         .hero-cta{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;}
@@ -133,21 +140,21 @@ st.markdown(
         .stats{ margin-top:44px; display:grid; grid-template-columns:repeat(4, 1fr); gap:14px; }
         .stat{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px 22px; position:relative; overflow:hidden;}
         .stat::after{ content:""; position:absolute; inset:auto -30% -60% auto; width:180px; height:180px; background:radial-gradient(closest-side, rgba(124,58,237,0.14), transparent); }
-        .stat .num{ font-family:'Instrument Serif', serif; font-size:42px; letter-spacing:-0.02em; }
+        .stat .num{ font-family:'Instrument Serif', serif; font-size:42px; letter-spacing:-0.02em; color: var(--ink); -webkit-text-fill-color: var(--ink);}
         .stat .lbl{ color:var(--muted); font-size:13px; margin-top:2px;}
-        .stat.teal .num{ color:var(--teal); }
-        .stat.violet .num{ color:var(--violet); }
+        .stat.teal .num{ color:var(--teal); -webkit-text-fill-color: var(--teal);}
+        .stat.violet .num{ color:var(--violet); -webkit-text-fill-color: var(--violet);}
 
         /* Section titles */
         .section-title{ display:flex; align-items:baseline; justify-content:space-between; margin: 64px 0 22px;}
-        .section-title h2{ font-family:'Instrument Serif', serif; font-weight:400; font-size:40px; letter-spacing:-0.02em; margin:0;}
+        .section-title h2{ font-family:'Instrument Serif', serif; font-weight:400; font-size:40px; letter-spacing:-0.02em; margin:0; color: var(--ink) !important; -webkit-text-fill-color: var(--ink) !important;}
         .section-title .kicker{ color:var(--muted); font-size:13px; letter-spacing:0.14em; text-transform:uppercase;}
 
         /* How it works */
         .steps{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;}
         .step{ background:var(--card); border:1px solid var(--line); border-radius:20px; padding:24px; min-height:200px; position:relative; transition: transform .25s ease, box-shadow .25s ease;}
         .step:hover{ transform: translateY(-4px); box-shadow:var(--shadow);}
-        .step .idx{ font-family:'Instrument Serif', serif; font-size:44px; color: color-mix(in oklab, var(--violet) 60%, var(--teal)); line-height:1; }
+        .step .idx{ font-family:'Instrument Serif', serif; font-size:44px; color: var(--violet); line-height:1; -webkit-text-fill-color: var(--violet); }
         .step h3{ font-size:18px; margin: 10px 0 6px; letter-spacing:-0.01em;}
         .step p{ color:var(--muted); font-size:14px; line-height:1.55; margin:0; }
         .step .ic{ position:absolute; top:22px; right:22px; width:38px; height:38px; border-radius:10px; display:grid; place-items:center; background: rgba(14,165,164,0.10); color:var(--teal); }
@@ -156,7 +163,7 @@ st.markdown(
 
         /* Analyzer panel */
         .panel{ background:var(--card); border:1px solid var(--line); border-radius:24px; padding:26px; box-shadow: var(--shadow);}
-        .panel h3{ margin:0 0 4px; font-size:22px; letter-spacing:-0.01em;}
+        .panel h3{ margin:0 0 4px; font-size:22px; letter-spacing:-0.01em; color: var(--ink) !important; -webkit-text-fill-color: var(--ink) !important;}
         .panel .sub{ color:var(--muted); font-size:14px; margin-bottom:18px;}
 
         /* Streamlit file uploader theming */
@@ -174,7 +181,7 @@ st.markdown(
         .result{ display:flex; align-items:center; gap:18px; padding:18px; border-radius:18px; border:1px solid var(--line); background:#fff; }
         .ring{ width:110px; height:110px; border-radius:50%; display:grid; place-items:center; background: conic-gradient(var(--rc) calc(var(--pct)*1%), rgba(11,18,32,0.06) 0); position:relative;}
         .ring::before{ content:""; position:absolute; inset:8px; border-radius:50%; background:#fff; }
-        .ring span{ position:relative; font-family:'Instrument Serif', serif; font-size:30px; }
+        .ring span{ position:relative; font-family:'Instrument Serif', serif; font-size:30px; -webkit-text-fill-color: currentColor; }
         .result .meta .tag{ display:inline-block; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.02em;}
         .result .meta h4{ margin:8px 0 4px; font-size:22px; letter-spacing:-0.01em;}
         .result .meta p{ margin:0; color:var(--muted); font-size:13.5px; line-height:1.55; max-width:520px;}
@@ -444,8 +451,8 @@ def render_result(pred_label: str, confidence: float, all_probs: np.ndarray):
         p = float(all_probs[i]) * 100
         bars_html += f"""
         <div class="bar">
-            <div class="head"><span>{m['label']}</span><span style="color:{m['color']};font-weight:700;">{p:.1f}%</span></div>
-            <div class="track"><div class="fill" style="width:{p}%; background:linear-gradient(90deg, {m['color']}, color-mix(in oklab, {m['color']} 60%, #fff));"></div></div>
+            <div class="head"><span>{m['label']}</span><span style="color:{m['color']};font-weight:700;-webkit-text-fill-color:{m['color']};">{p:.1f}%</span></div>
+            <div class="track"><div class="fill" style="width:{p}%; background:linear-gradient(90deg, {m['color']}, {m['color']}CC);"></div></div>
         </div>
         """
     st.markdown(f'<div class="bars">{bars_html}</div>', unsafe_allow_html=True)
@@ -593,3 +600,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
